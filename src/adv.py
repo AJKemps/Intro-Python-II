@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -39,6 +40,10 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+newPlayer = Player('Alex', room['outside'])
+
+print(newPlayer)
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +54,63 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+playing = True
+
+while playing:
+
+    key = input("Where to next?  ")
+
+    if key == "n":
+        try:
+            newPlayer.location = newPlayer.location.n_to
+            print("---")
+            print(f"You are now in the {newPlayer.location.name}")
+            print(newPlayer.location.description)
+            print("---")
+            print("\n")
+        except:
+            print('Oops! No room in that direction')
+    elif key == "s":
+        try:
+            newPlayer.location = newPlayer.location.s_to
+            print("---")
+            print(f"You are now in the {newPlayer.location.name}")
+            print(newPlayer.location.description)
+            print("---")
+            print("\n")
+        except:
+            print('Oops! No room in that direction')
+    elif key == "e":
+        try:
+            newPlayer.location = newPlayer.location.e_to
+            print("---")
+            print(f"You are now in the {newPlayer.location.name}")
+            print(newPlayer.location.description)
+            print("---")
+            print("\n")
+        except:
+            print('Oops! No room in that direction')
+    elif key == "w":
+        try:
+            newPlayer.location = newPlayer.location.w_to
+            print("---")
+            print(f"You are now in the {newPlayer.location.name}")
+            print(newPlayer.location.description)
+            print("---")
+            print("\n")
+        except:
+            print('Oops! No room in that direction')
+    elif key == "q":
+        print("\n")
+        print("---")
+        print("Goodbye!")
+        print("---")
+        print("\n")
+        key = 0
+        exit()
+    else:
+        print("---")
+        print("Invalid input. Input options are: \n n to move North \n s to move South \n e to move East \n w to move West \n q to move Quit")
+        print("---")
+        print("\n")
