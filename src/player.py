@@ -65,11 +65,11 @@ class Player:
             print("No items in inventory")
             self.formatPrint()
         else:
+            self.formatPrint()
+            print('Current Inventory:')
             for item in self.inventory:
-                self.formatPrint()
-                print('Current Inventory:')
                 print(f'A {item.name}, {item.description}')
-                self.formatPrint()
+            self.formatPrint()
 
     def pick_up(self, item):
         items = self.location.items
@@ -102,7 +102,7 @@ class Player:
             self.formatPrint()
 
     def drop(self, item):
-        items = self.location.items
+        items = self.inventory
 
         name = ""
         description = ""

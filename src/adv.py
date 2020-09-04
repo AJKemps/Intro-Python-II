@@ -93,13 +93,13 @@ while playing:
     elif len(entry) <= 1:
         if key == "n" or key == "s" or key == "e" or key == "w":
             newPlayer.move(key)
-        if key == "q":
+        elif key == "q":
             formatPrint()
             print("Goodbye!")
             formatPrint()
             playing = False
             exit()
-        if key == "i" or key == "inventory":
+        elif key == "i" or key == "inventory":
             newPlayer.get_inventory()
         else:
             formatPrint()
