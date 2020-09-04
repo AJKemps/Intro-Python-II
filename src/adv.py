@@ -1,21 +1,30 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
+
+items = {
+    'knife': Item("knife", "for hand to hand combat"),
+    'torch': Item("torch", "to light the way"),
+    'pistol': Item("pistol", "in case of competition"),
+}
+
+print(vars(items['knife']))
 
 room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+passages run north and east.""", items['torch'], items['knife']),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""",  items['pistol']),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+to north. The smell of gold permeates the air.""", items['knife']),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
@@ -59,58 +68,41 @@ playing = True
 
 while playing:
 
-    key = input("Where to next?  ")
+    def formatPrint():
+        print("\n")
+        print("* * *")
+        print("\n")
 
-    if key == "n":
-        try:
-            newPlayer.location = newPlayer.location.n_to
-            print("---")
-            print(f"You are now in the {newPlayer.location.name}")
-            print(newPlayer.location.description)
-            print("---")
-            print("\n")
-        except:
-            print('Oops! No room in that direction')
-    elif key == "s":
-        try:
-            newPlayer.location = newPlayer.location.s_to
-            print("---")
-            print(f"You are now in the {newPlayer.location.name}")
-            print(newPlayer.location.description)
-            print("---")
-            print("\n")
-        except:
-            print('Oops! No room in that direction')
-    elif key == "e":
-        try:
-            newPlayer.location = newPlayer.location.e_to
-            print("---")
-            print(f"You are now in the {newPlayer.location.name}")
-            print(newPlayer.location.description)
-            print("---")
-            print("\n")
-        except:
-            print('Oops! No room in that direction')
-    elif key == "w":
-        try:
-            newPlayer.location = newPlayer.location.w_to
-            print("---")
-            print(f"You are now in the {newPlayer.location.name}")
-            print(newPlayer.location.description)
-            print("---")
-            print("\n")
-        except:
-            print('Oops! No room in that direction')
-    elif key == "q":
-        print("\n")
-        print("---")
-        print("Goodbye!")
-        print("---")
-        print("\n")
-        key = 0
-        exit()
-    else:
-        print("---")
-        print("Invalid input. Input options are: \n n to move North \n s to move South \n e to move East \n w to move West \n q to move Quit")
-        print("---")
-        print("\n")
+    key = input(f"You are in {newPlayer.location.name} \n\nWhat's next?  ")
+
+    entry = key.split()
+
+    if len(entry) > 1:
+        if entry[0] == "grab":
+            newPlayer.pick_up(entry[1])
+            entry = 1
+        elif entry[0] == "drop":
+            newPlayer.drop(entry[1])
+            entry = 1
+        else:
+            formatPrint()
+            print(
+                "Incorrect input! \n\n Enter grab or drop, followed by item name \n\nOr Q to quit")
+            formatPrint()
+            entry = 1
+    elif len(entry) <= 1:
+        if key == "n" or key == "s" or key == "e" or key == "w":
+            newPlayer.move(key)
+        if key == "q":
+            formatPrint()
+            print("Goodbye!")
+            formatPrint()
+            playing = False
+            exit()
+        if key == "i" or key == "inventory":
+            newPlayer.get_inventory()
+        else:
+            formatPrint()
+            print(
+                "Incorrect input! \n\nEnter a cardinal direction to move \n\nOr Q to quit")
+            formatPrint()
